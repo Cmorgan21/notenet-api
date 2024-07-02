@@ -26,3 +26,12 @@ class CreateUserView(generics.CreateAPIView):
             raise ValidationError({'detail': e.detail})
         except Exception as e:
             raise ValidationError({'detail': str(e)})
+class NoteList(generics.ListAPIView):
+    """
+    Allows authenticated users with a token to see their notes
+    """
+    permission_classes = [IsAuthenticated]
+    serializer_class = NoteSerializer
+
+    def get_queryset(self):
+        return Note.objects.filter(author=self.request.user).order_by('-created_on')
