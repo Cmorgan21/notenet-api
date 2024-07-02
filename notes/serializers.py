@@ -42,4 +42,17 @@ class UserSerializer(serializers.ModelSerializer):
             instance.save()
         return instance
 
+class NoteSerializer(serializers.ModelSerializer):
+    """
+    Serializes all fields of Note Model
+    Excludes author field from being manipulated
+    """
+    class Meta:
+        """
+        Meta class for the NoteSerializer
+        """
+        model = Note
+        fields = ['id', 'title', 'body', 'created_on', 'updated_at']
+        extra_kwargs = {'author': {'read_only': True}}
+
     
