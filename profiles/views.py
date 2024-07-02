@@ -35,3 +35,29 @@ class ChangePasswordView(generics.UpdateAPIView):
             self.object.save()
             return Response({"status": "password set"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ProfileDetail(generics.RetrieveUpdateAPIView):
+    """
+    Retrieve or update the authenticated user's profile.
+    """
+    serializer_class = ProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user.profile
+
+class ProfileUpdate(generics.UpdateAPIView):
+    """
+    Update the authenticated user's profile.
+    """
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
