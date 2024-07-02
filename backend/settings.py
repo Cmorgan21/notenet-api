@@ -21,8 +21,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://localhost:3000']
-CORS_ALLOWED_ORIGINS = ['http://localhost', 'http://localhost:3000']
 
 ALLOWED_HOSTS = [
     'notenet-api-99d389ccf2f7.herokuapp.com'
@@ -66,6 +64,9 @@ REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'notenet_api.serializers.CurrentUserSerializer'
 }
 
+CORS_ALLOWED_ORIGINS = [
+    'https://note-net-76b362f0a995.herokuapp.com',
+]
 
 CORS_ALLOW_CREDENTIALS = True
 
