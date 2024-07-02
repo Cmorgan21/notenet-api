@@ -35,3 +35,29 @@ class NoteList(generics.ListAPIView):
 
     def get_queryset(self):
         return Note.objects.filter(author=self.request.user).order_by('-created_on')
+
+class CreateNoteView(generics.CreateAPIView):
+    """
+    Allows authenticated users with a token to create a note
+    """
+    permission_classes = [IsAuthenticated]
+    serializer_class = NoteSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+class NoteDetail(generics.RetrieveAPIView):
+    """
+    Allows authenticated users with a token to see their notes
+    """
+    permission_classes = [IsAuthenticated]
+    serializer_class = NoteSerializer
+
+    def get_queryset(self):
+        return Note.objects.filter(author=self.request.user)
+
+    def retrieve(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        note = get_object_or_404(queryset, pk=kwargs['pk'])
+        serializer = self.get_serializer(note)
+        return Response(serializer.data)
