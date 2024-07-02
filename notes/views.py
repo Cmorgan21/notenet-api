@@ -61,3 +61,23 @@ class NoteDetail(generics.RetrieveAPIView):
         note = get_object_or_404(queryset, pk=kwargs['pk'])
         serializer = self.get_serializer(note)
         return Response(serializer.data)
+
+class UpdateNoteView(generics.UpdateAPIView):
+    """
+    Allows authenticated users with a token to update a note
+    """
+    serializer_class = NoteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Note.objects.filter(author=self.request.user)
+
+class DeleteNoteView(generics.DestroyAPIView):
+    """
+    Allows authenticated users with a token to delete a note
+    """
+    permission_classes = [IsAuthenticated]
+    serializer_class = NoteSerializer
+
+    def get_queryset(self):
+        return Note.objects.filter(author=self.request.user)
