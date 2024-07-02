@@ -24,7 +24,9 @@ DEBUG = True
 CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://localhost:3000']
 CORS_ALLOWED_ORIGINS = ['http://localhost', 'http://localhost:3000']
 
-
+ALLOWED_HOSTS = [
+    'notenet-api-99d389ccf2f7.herokuapp.com'
+    ]
 
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
