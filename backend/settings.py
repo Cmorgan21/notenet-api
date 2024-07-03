@@ -23,8 +23,8 @@ DEBUG = True
 
 
 ALLOWED_HOSTS = [
-    'notenet-api-99d389ccf2f7.herokuapp.com'
-    ]
+    'notenet-api-99d389ccf2f7.herokuapp.com',
+]
 
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
@@ -56,7 +56,7 @@ JWT_AUTH_SECURE = True
 JWT_AUTH_SAMESITE = 'None'
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
