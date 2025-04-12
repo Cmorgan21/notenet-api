@@ -19,7 +19,7 @@ if os.path.exists('env.py'):
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 ALLOWED_HOSTS = [
@@ -65,7 +65,7 @@ REST_AUTH_SERIALIZERS = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    'https://note-net-76b362f0a995.herokuapp.com',
+    'https://notenet-7107311aceb5.herokuapp.com',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
