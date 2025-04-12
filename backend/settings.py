@@ -23,7 +23,7 @@ DEBUG = True
 
 
 ALLOWED_HOSTS = [
-    'notenet-api-99d389ccf2f7.herokuapp.com',
+    'notenet-drf-16de1359cbd6.herokuapp.com',
 ]
 
 CLOUDINARY_STORAGE = {
