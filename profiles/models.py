@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 # Create your models here.
 
 class Profile(models.Model):
@@ -26,15 +24,17 @@ class Profile(models.Model):
         """
         return f"Profile for {self.user.username}"
 
-@receiver(post_save, sender=User)
 def create_or_update_profile(sender, instance, created, **kwargs):
     """
     Create or update a Profile instance when a User instance is created or updated
     """
     if created:
+        # User instance is created, create a new profile
         Profile.objects.create(user=instance, name=instance.username, email=instance.email)
     else:
+        # User instance is updated, get existing profile or create if it doesn't exist
         profile, _ = Profile.objects.get_or_create(user=instance)
         profile.name = instance.username
         profile.email = instance.email 
         profile.save()
+
