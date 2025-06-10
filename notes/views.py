@@ -10,6 +10,7 @@ from .serializers import UserSerializer, NoteSerializer
 
 # Create your views here.
 
+
 class CreateUserView(generics.CreateAPIView):
     """
     Allows anyone to create a user
@@ -26,6 +27,8 @@ class CreateUserView(generics.CreateAPIView):
             raise ValidationError({'detail': e.detail})
         except Exception as e:
             raise ValidationError({'detail': str(e)})
+
+
 class NoteList(generics.ListAPIView):
     """
     Allows authenticated users with a token to see their notes
@@ -34,7 +37,13 @@ class NoteList(generics.ListAPIView):
     serializer_class = NoteSerializer
 
     def get_queryset(self):
-        return Note.objects.filter(author=self.request.user).order_by('-created_on')
+
+        return (
+            Note.objects
+            .filter(author=self.request.user)
+            .order_by('-created_on')
+        )
+
 
 class CreateNoteView(generics.CreateAPIView):
     """
@@ -45,6 +54,7 @@ class CreateNoteView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
 
 class NoteDetail(generics.RetrieveAPIView):
     """
@@ -62,6 +72,7 @@ class NoteDetail(generics.RetrieveAPIView):
         serializer = self.get_serializer(note)
         return Response(serializer.data)
 
+
 class UpdateNoteView(generics.UpdateAPIView):
     """
     Allows authenticated users with a token to update a note
@@ -71,6 +82,7 @@ class UpdateNoteView(generics.UpdateAPIView):
 
     def get_queryset(self):
         return Note.objects.filter(author=self.request.user)
+
 
 class DeleteNoteView(generics.DestroyAPIView):
     """
