@@ -93,6 +93,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'notes',
     'profiles',
+    'catergories'
 
 ]
 
