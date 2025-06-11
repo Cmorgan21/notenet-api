@@ -29,5 +29,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('get-notes/', views.NoteList.as_view(), name='home'),
     path('api/', include('notes.urls')),
-    path('api/', include('profiles.urls'))
+    path('api/', include('profiles.urls')),
+    path('api/', include('categories.urls'))
+
 ]
