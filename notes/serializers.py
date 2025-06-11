@@ -47,10 +47,11 @@ class NoteSerializer(serializers.ModelSerializer):
     Serializes all fields of Note Model
     Excludes author field from being manipulated
     """
+    category = serializers.StringRelatedField()
     class Meta:
         """
         Meta class for the NoteSerializer
         """
         model = Note
-        fields = ['id', 'title', 'body', 'created_on', 'updated_at']
+        fields = ['id', 'title', 'body', 'created_on', 'updated_at', 'category']
         extra_kwargs = {'author': {'read_only': True}}
