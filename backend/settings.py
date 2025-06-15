@@ -17,12 +17,10 @@ if os.path.exists('env.py'):
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
-ALLOWED_HOSTS = [
-    'notenet-drf-16de1359cbd6.herokuapp.com',
-]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
@@ -66,7 +64,8 @@ REST_AUTH_SERIALIZERS = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    'https://notenet-7107311aceb5.herokuapp.com',
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
