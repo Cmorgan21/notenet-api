@@ -13,8 +13,7 @@ class Note(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notes')
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='notes')  # ✅ New field
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='notes') 
 
     def __str__(self):
         return f'{self.title} by {self.author}'
-

@@ -2,8 +2,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from rest_framework import serializers
 from profiles.models import Profile
-from .models import Note
-
+from .models import Note, Category
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -13,9 +12,6 @@ class UserSerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        """
-        Meta class for the UserSerializer
-        """
         model = User
         fields = ['id', 'username', 'email', 'password']
         extra_kwargs = {'password': {'write_only': True}}
@@ -42,16 +38,19 @@ class UserSerializer(serializers.ModelSerializer):
             instance.save()
         return instance
 
-class NoteSerializer(serializers.ModelSerializer):
-    """
-    Serializes all fields of Note Model
-    Excludes author field from being manipulated
-    """
-    category = serializers.StringRelatedField()
+
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        """
-        Meta class for the NoteSerializer
-        """
+        model = Category
+        fields = ['id', 'name', 'description', 'color', 'owner'] 
+        
+class NoteSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(read_only=True)
+    category_id = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all(), write_only=True, source='category'
+    )
+
+    class Meta:
         model = Note
-        fields = ['id', 'title', 'body', 'created_on', 'updated_at', 'category']
+        fields = ['id', 'title', 'body', 'created_on', 'updated_at', 'category', 'category_id']
         extra_kwargs = {'author': {'read_only': True}}
