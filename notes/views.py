@@ -8,8 +8,6 @@ from profiles.models import Profile
 from .models import Note
 from .serializers import UserSerializer, NoteSerializer
 
-# Create your views here.
-
 
 class CreateUserView(generics.CreateAPIView):
     """
@@ -37,7 +35,6 @@ class NoteList(generics.ListAPIView):
     serializer_class = NoteSerializer
 
     def get_queryset(self):
-
         return (
             Note.objects
             .filter(author=self.request.user)
@@ -54,6 +51,11 @@ class CreateNoteView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
 
 
 class NoteDetail(generics.RetrieveAPIView):
@@ -82,6 +84,11 @@ class UpdateNoteView(generics.UpdateAPIView):
 
     def get_queryset(self):
         return Note.objects.filter(author=self.request.user)
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})  # Pass request to serializer
+        return context
 
 
 class DeleteNoteView(generics.DestroyAPIView):

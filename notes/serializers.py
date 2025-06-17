@@ -42,15 +42,27 @@ class UserSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name', 'description', 'color', 'owner'] 
-        
+        fields = ['id', 'name', 'description', 'color', 'owner']
+
+
 class NoteSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
     category_id = serializers.PrimaryKeyRelatedField(
-        queryset=Category.objects.all(), write_only=True, source='category'
+        queryset=Category.objects.none(),
+        write_only=True,
+        source='category',
+        allow_null=True,
+        required=False
     )
 
     class Meta:
         model = Note
         fields = ['id', 'title', 'body', 'created_on', 'updated_at', 'category', 'category_id']
         extra_kwargs = {'author': {'read_only': True}}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        request = self.context.get('request', None)
+        if request and hasattr(request, "user"):
+            # Filter categories by owner == current user
+            self.fields['category_id'].queryset = Category.objects.filter(owner=request.user)
