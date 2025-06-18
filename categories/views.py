@@ -1,3 +1,9 @@
+"""
+This module provides API views for managing Category objects,
+including listing, creating, updating, and deleting categories
+specific to the authenticated user.
+"""
+
 from rest_framework import generics, permissions
 from .models import Category
 from .serializers import CategorySerializer
